@@ -1,0 +1,4 @@
+0001 AME LAB001 02.11 MAJ NOU Modifier le lab 1 de LOG430 
+0002 AME INT001 01.01 NOR NOU Ajouter le nouvelle intreface demandee par Jo 
+0003 DEF CMP001 04.18 CRI ASS Le systeme plante quand on tape Z
+0004 DEF DOC001 02.13 MIN ASS Phaute daurtograffe dans le tytre du daucuman
