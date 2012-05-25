@@ -37,10 +37,10 @@ public class Main {
         // Lets make sure that input and output files are provided on the
         // command line
         
-//        argv = new String[3];
-//        argv[0] = "Input.txt";
-//        argv[1] = "Output1.txt";
-//        argv[2] = "Output2.txt";
+        argv = new String[3];
+        argv[0] = "Input.txt";
+        argv[1] = "Output1.txt";
+        argv[2] = "Output2.txt";
         
         if (argv.length != 3) {
 
@@ -51,10 +51,13 @@ public class Main {
             PipedWriter filePipe = new PipedWriter();
             FileReaderFilter readerFilter = new FileReaderFilter(argv[0], filePipe);
             
+            PipedWriter splitPipe1 = new PipedWriter();
+            PipedWriter splitPipe2 = new PipedWriter();
+            SplitterFilter splitterFilter = new SplitterFilter(filePipe, splitPipe1, splitPipe2);
+            
             PipedWriter typeDefPipe = new PipedWriter();
             PipedWriter typeAmePipe = new PipedWriter();
-            PipedWriter typeAllPipe = new PipedWriter();
-            TypeFilter typeFilter = new TypeFilter(filePipe, typeDefPipe, typeAmePipe, typeAllPipe);
+            TypeFilter typeFilter = new TypeFilter(splitPipe1, typeDefPipe, typeAmePipe);
             
             PipedWriter severityCriPipe = new PipedWriter();
             PipedWriter severityMajPipe = new PipedWriter();
@@ -62,7 +65,7 @@ public class Main {
             SeverityFilter severityMajFilter = new SeverityFilter("MAJ", false, typeAmePipe, severityMajPipe);
             
             PipedWriter severityOtherPipe = new PipedWriter();
-            SeverityFilter severityOtherFilter = new SeverityFilter("CRI;MAJ", true, typeAllPipe, severityOtherPipe);
+            SeverityFilter severityOtherFilter = new SeverityFilter("CRI;MAJ", true, splitPipe2, severityOtherPipe);
             
             PipedWriter mergedPipe = new PipedWriter();
             MergeFilter mergeFilter = new MergeFilter(severityCriPipe, severityMajPipe, mergedPipe);
@@ -84,6 +87,7 @@ public class Main {
             
             readerFilter.start();
             
+            splitterFilter.start();
             typeFilter.start();
             
             severityCriFilter.start();

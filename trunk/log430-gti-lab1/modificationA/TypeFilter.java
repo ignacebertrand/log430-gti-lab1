@@ -30,9 +30,8 @@ public class TypeFilter extends Thread {
     PipedReader InputPipe = new PipedReader();
     PipedWriter OutputPipe1 = new PipedWriter();
     PipedWriter OutputPipe2 = new PipedWriter();
-    PipedWriter OutputPipe3 = null;
 
-    public TypeFilter(PipedWriter InputPipe, PipedWriter OutputPipe1, PipedWriter OutputPipe2, PipedWriter OutputPipe3) {
+    public TypeFilter(PipedWriter InputPipe, PipedWriter OutputPipe1, PipedWriter OutputPipe2) {
 
         try {
 
@@ -45,7 +44,6 @@ public class TypeFilter extends Thread {
 
             this.OutputPipe1 = OutputPipe1;
             this.OutputPipe2 = OutputPipe2;
-            this.OutputPipe3 = OutputPipe3;
             System.out.println("TypeFilter:: connected to downstream filters.");
 
         } catch (Exception Error) {
@@ -102,11 +100,6 @@ public class TypeFilter extends Thread {
                             OutputPipe2.write(LineOfText, 0, LineOfText.length());
                             OutputPipe2.flush();
                         } // if
-
-                        if (this.OutputPipe3 != null) {
-                            this.OutputPipe3.write(LineOfText, 0, LineOfText.length());
-                            this.OutputPipe3.flush();
-                        }
 
                         LineOfText = "";
 
