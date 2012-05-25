@@ -37,10 +37,10 @@ public class Main {
         // Lets make sure that input and output files are provided on the
         // command line
         
-        argv = new String[3];
-        argv[0] = "Input.txt";
-        argv[1] = "Output1.txt";
-        argv[2] = "Output2.txt";
+//        argv = new String[3];
+//        argv[0] = "Input.txt";
+//        argv[1] = "Output1.txt";
+//        argv[2] = "Output2.txt";
         
         if (argv.length != 3) {
 
