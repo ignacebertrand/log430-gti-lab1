@@ -46,6 +46,15 @@ public class SplitterFilter extends Thread {
                 this.closeReader(reader);
             }
         }
+        
+        try {
+            this._OutputPipe1.close();
+            this._OutputPipe2.close();
+        }
+        catch (Exception ex) {
+            System.out.println("SplitterFilter: An error occurred closing the output pipe.");
+            System.out.println(ex.getMessage());
+        }
     }
     
     private void closeReader(Reader reader) {

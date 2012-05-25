@@ -46,6 +46,14 @@ public class TrimFilter extends Thread {
                 this.closeReader(reader);
             }
         }
+        
+        try {
+            this._OutputPipe.close();
+        }
+        catch (Exception ex) {
+            System.out.println("TrimFilter: An error occurred closing the output pipe.");
+            System.out.println(ex.getMessage());
+        }
     }
     
     private void closeReader(Reader reader) {
