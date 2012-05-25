@@ -54,6 +54,14 @@ public class StatusSortFilter extends Thread {
             System.out.println("StatusSortFilter: An error occurred writing to the output pipe.");
             System.out.println(ex.getMessage());
         }
+        
+        try {
+            this._OutputPipe.close();
+        }
+        catch (Exception ex) {
+            System.out.println("StatusSortFilter: An error occurred closing the output pipe.");
+            System.out.println(ex.getMessage());
+        }
     }
     
     private void closeReader(Reader reader) {
