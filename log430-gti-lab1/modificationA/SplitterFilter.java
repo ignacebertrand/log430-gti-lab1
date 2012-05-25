@@ -2,44 +2,44 @@ package modificationA;
 
 import java.io.*;
 
-public class TrimFilter extends Thread {
+public class SplitterFilter extends Thread {
     
-    PipedReader _Source;
-    PipedWriter _InputPipe;
-    PipedWriter _OutputPipe;
+    private PipedReader _Source;
+    private PipedWriter _InputPipe;
+    private PipedWriter _OutputPipe1;
+    private PipedWriter _OutputPipe2;
     
-    public TrimFilter(PipedWriter inputPipe, PipedWriter outputPipe) {
+    public SplitterFilter(PipedWriter inputPipe, PipedWriter outputPipe1, PipedWriter outputPipe2) {
         this._InputPipe = inputPipe;
-        this._OutputPipe = outputPipe;
+        this._OutputPipe1 = outputPipe1;
+        this._OutputPipe2 = outputPipe2;
         
         try {
             this._Source = new PipedReader();
             this._Source.connect(this._InputPipe);
         } catch (Exception ex) {
-            System.out.println("TrimFilter: An error occurred during initialization.");
+            System.out.println("SplitterFilter: An error occurred during initialization.");
             System.out.println(ex.getMessage());
         }
     }
     
     public void run() {
-        
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(this._Source);
             String line;
             while ((line = reader.readLine()) != null) {
-                String status = line.substring(26, 29);
-                String severity = line.substring(22, 25);
-                String type = line.substring(5, 8);
-                String noTicket = line.substring(0, 4);
                 
-                this._OutputPipe.write(status + " " + severity + " " + type + " " + noTicket + "\n");
-                this._OutputPipe.flush();
+                this._OutputPipe1.write(line + "\n");
+                this._OutputPipe1.flush();
+                
+                this._OutputPipe2.write(line + "\n");
+                this._OutputPipe2.flush();
             }
             
             this.closeReader(reader);
         } catch (Exception ex) {
-            System.out.println("TrimFilter: An error occurred reading from the input pipe.");
+            System.out.println("SplitterFilter: An error occurred reading from the input pipe.");
             System.out.println(ex.getMessage());
             
             if (reader != null) {
@@ -53,7 +53,7 @@ public class TrimFilter extends Thread {
             reader.close();
         }
         catch (Exception ex) {
-            System.out.println("TrimFilter: An error occurred trying to close a reader.");
+            System.out.println("SplitterFilter: An error occurred trying to close a reader.");
             System.out.println(ex.getMessage());
         }
     }

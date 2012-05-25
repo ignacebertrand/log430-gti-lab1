@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package modificationA;
 
 import java.io.*;
 import java.util.*;
 
-/**
- *
- * @author Alexandre
- */
 public class StatusSortFilter extends Thread {
     
     PipedReader _Source = null;
