@@ -12,3 +12,4 @@ D040 1500 0300 1111 Notre-Dame ouest, Montreal H3C 1K3
 D041 1230 0130 1111 Notre-Dame ouest, Montreal H3C 1K3
 D042 1400 0100 1111 Notre-Dame ouest, Montreal H3C 1K3
 D043 1530 0300 1111 Notre-Dame ouest, Montreal H3C 1K3
+D044 1500 0300 1111 Notre-Dame ouest, Montreal H3C 1K3
