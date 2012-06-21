@@ -1,5 +1,9 @@
 package ca.etsmtl.log430.lab2.mod;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * This class defines the Delivery object for the system.
  * 
@@ -48,10 +52,7 @@ public class Delivery {
 	 */
 	private String estimatedDeliveryDuration;
 
-	/**
-	 * List of teachers assigned to the course 
-	 */
-	private DriverList driversAssigned = new DriverList();
+        private Driver assignedDriver = null;
 
 	public Delivery() {
 		this(null);
@@ -72,9 +73,25 @@ public class Delivery {
 	 * 
 	 * @param driver
 	 */
-	public void assignDriver(Driver driver) {
-		driversAssigned.addDriver(driver);
+	public boolean assignDriver(Driver driver) {
+            if (this.isAssigned()) {
+                return false;
+            }
+            this.assignedDriver = driver;
+            return true;
 	}
+
+	public Driver getDriverAssigned() {
+		return this.assignedDriver;
+	}
+        
+        public void unassignDriver() {
+            this.assignedDriver = null;
+        }
+        
+        public boolean isAssigned() {
+            return (this.assignedDriver != null);
+        }
 
 	public void setDeliveryID(String deliveryID) {
 		this.deliveryID = deliveryID;
@@ -107,13 +124,34 @@ public class Delivery {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public DriverList getDriversAssigned() {
-		return driversAssigned;
-	}
-
-	public void setDriversAssigned(DriverList driversAssigned) {
-		this.driversAssigned = driversAssigned;
-	}
+        
+        public boolean hasConflictWith(Delivery delivery) {
+            Date curEndDate, curStartDate;
+            Date newEndDate, newStartDate;
+            
+            Calendar calendar = new GregorianCalendar();
+            calendar.set(GregorianCalendar.SECOND, 0);
+            
+            calendar.set(GregorianCalendar.HOUR_OF_DAY, Integer.parseInt(this.getDesiredDeliveryTime().substring(0, 1)));
+            calendar.set(GregorianCalendar.MINUTE, Integer.parseInt(this.getDesiredDeliveryTime().substring(2, 3)));
+            curEndDate = calendar.getTime();
+            
+            calendar.add(GregorianCalendar.HOUR_OF_DAY, -Integer.parseInt(this.getEstimatedDeliveryDuration().substring(0, 1)));
+            calendar.add(GregorianCalendar.MINUTE, -Integer.parseInt(this.getEstimatedDeliveryDuration().substring(2, 3)));
+            curStartDate = calendar.getTime();
+            
+            calendar.set(GregorianCalendar.HOUR_OF_DAY, Integer.parseInt(delivery.getDesiredDeliveryTime().substring(0, 1)));
+            calendar.set(GregorianCalendar.MINUTE, Integer.parseInt(delivery.getDesiredDeliveryTime().substring(2, 3)));
+            newEndDate = calendar.getTime();
+            
+            calendar.add(GregorianCalendar.HOUR_OF_DAY, -Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(0, 1)));
+            calendar.add(GregorianCalendar.MINUTE, -Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(2, 3)));
+            newStartDate = calendar.getTime();
+            
+            boolean checkStart = (newStartDate.compareTo(curStartDate) >= 0 && newStartDate.compareTo(curEndDate) <= 0);
+            boolean checkEnd = (newEndDate.compareTo(curStartDate) >= 0 && newEndDate.compareTo(curEndDate) <= 0);
+            
+            return (checkStart | checkEnd);
+        }
 
 } // Delivery class

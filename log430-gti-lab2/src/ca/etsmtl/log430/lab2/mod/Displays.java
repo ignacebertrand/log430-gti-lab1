@@ -3,7 +3,7 @@ package ca.etsmtl.log430.lab2.mod;
 /**
  * This class displays various types of information on courses and teachers
  * (individually and as lists) to the screen.
- * 
+ *
  * @author A.J. Lattanze, CMU
  * @version 1.4, 2012-May-31
  */
@@ -12,228 +12,282 @@ package ca.etsmtl.log430.lab2.mod;
  * Modification Log
  * ************************************************************************
  * v1.4, R. Champagne, 2012-May-31 - Various refactorings for new lab.
- * 
+ *
  * v1.3, R. Champagne, 2012-Feb-02 - Various refactorings for new lab.
- * 
+ *
  * v1.2, 2011-Feb-02, R. Champagne - Various refactorings, javadoc comments.
- * 
+ *
  * v1.1, 2002-May-21, R. Champagne - Adapted for use at ETS.
- * 
+ *
  * v1.0, 12/29/99, A.J. Lattanze - Original version.
  * ************************************************************************
  */
-
 public class Displays {
 
-	private int lineCount = 0;
-	private int maxLinesDisplayed = 18;
+    private int lineCount = 0;
+    private int maxLinesDisplayed = 18;
+
+    /**
+     * Counts the number of lines that has been printed. One a set number of
+     * lines has been printed, the user is asked to press the enter key to
+     * continue. This prevents lines of text from scrolling off of the page
+     *
+     * @param linesToAdd
+     */
+    private void lineCheck(int linesToAdd) {
+
+        Termio terminal = new Termio();
+
+        if (lineCount >= maxLinesDisplayed) {
+
+            lineCount = 0;
+            System.out.print("\n*** Press Enter To Continue ***");
+            terminal.keyboardReadChar();
+
+        } else {
+
+            lineCount += linesToAdd;
+
+        } // if
+
+    } // LineCheck
+
+    /**
+     * Displays a driver object elements as follows: Driver's first name,
+     * Driver's last name, Driver's ID number, Driver's type (e.g. SNR, JNR)
+     *
+     * Note that the deliveries previously made by the driver and the deliveries
+     * the driver has been assigned for the current day are not listed.
+     *
+     * @param driver
+     */
+    public void displayDriver(Driver driver) {
+
+        System.out.print(driver.getDriverID() + " " + driver.getFirstName()
+                + " ");
+        System.out.println(driver.getLastName() + " " + driver.getType());
+
+    }
+
+    /**
+     * Displays a delivery object elements as follows: Delivery ID, desired
+     * Delivery time, estimated Delivery duration, Delivery address. Note that
+     * the drivers assigned to the delivery are not listed by this method.
+     *
+     * @param delivery
+     */
+    public void displayDelivery(Delivery delivery) {
+        System.out.print(delivery.getDeliveryID() + " ");
+        if (delivery.getDesiredDeliveryTime() != null) {
+            System.out.print(delivery.getDesiredDeliveryTime() + " ");
+        }
+        System.out.print(delivery.getEstimatedDeliveryDuration());
+        if (delivery.getAddress() != null) {
+            System.out.print(" - " + delivery.getAddress());
+        }
+        System.out.println();
+    }
 
-	/**
-	 * Counts the number of lines that has been printed. One a set number of
-	 * lines has been printed, the user is asked to press the enter key to
-	 * continue. This prevents lines of text from scrolling off of the page
-	 * 
-	 * @param linesToAdd
-	 */
-	private void lineCheck(int linesToAdd) {
+    /**
+     * Lists the drivers that have been assigned to the delivery.
+     *
+     * @param delivery
+     */
+    public void displayDriversAssignedToDelivery(Delivery delivery) {
 
-		Termio terminal = new Termio();
+        Driver driver;
 
-		if (lineCount >= maxLinesDisplayed) {
+        System.out.println("\nDrivers assigned to: " + " "
+                + delivery.getDeliveryID() + " " + delivery.getAddress() + " " + delivery.getDesiredDeliveryTime() + " :");
+        lineCheck(1);
 
-			lineCount = 0;
-			System.out.print("\n*** Press Enter To Continue ***");
-			terminal.keyboardReadChar();
+        System.out.println("===========================================================");
+        lineCheck(1);
 
-		} else {
+        driver = delivery.getDriverAssigned();
+        
+        if (driver == null) {
+            System.out.println("No driver is assigned to this delivery.");
+            lineCheck(1);
+        } else {
+            displayDriver(driver);
+            lineCheck(1);
+        }
+    }
 
-			lineCount += linesToAdd;
+    /**
+     * Lists the courses currently assigned to a teacher this term.
+     *
+     * @param driver
+     */
+    public void displayDeliveriesAssignedToDriver(Driver driver) {
 
-		} // if
+        boolean done;
+        Delivery delivery;
 
-	} // LineCheck
+        System.out.println("\nDeliveries assigned (today) to : "
+                + driver.getFirstName() + " " + driver.getLastName() + " "
+                + driver.getDriverID());
+        lineCheck(2);
+        System.out.println("========================================================= ");
+        lineCheck(1);
 
-	/**
-	 * Displays a driver object elements as follows: Driver's first name,
-	 * Driver's last name, Driver's ID number, Driver's type (e.g. SNR, JNR)
-	 * 
-	 * Note that the deliveries previously made by the driver and the deliveries
-	 * the driver has been assigned for the current day are not listed.
-	 * 
-	 * @param driver
-	 */
-	public void displayDriver(Driver driver) {
+        driver.getDeliveriesAssigned().goToFrontOfList();
+        done = false;
 
-		System.out.print(driver.getDriverID() + " " + driver.getFirstName()
-				+ " ");
-		System.out.println(driver.getLastName() + " " + driver.getType());
+        while (!done) {
 
-	}
+            delivery = driver.getDeliveriesAssigned().getNextDelivery();
 
-	/**
-	 * Displays a delivery object elements as follows: Delivery ID, desired
-	 * Delivery time, estimated Delivery duration, Delivery address. Note that
-	 * the drivers assigned to the delivery are not listed by this method.
-	 * 
-	 * @param delivery
-	 */
-	public void displayDelivery(Delivery delivery) {
-		System.out.print(delivery.getDeliveryID() + " "
-				+ delivery.getDesiredDeliveryTime() + " ");
-		System.out.println(delivery.getEstimatedDeliveryDuration() + " - "
-				+ delivery.getAddress());
-	}
+            if (delivery == null) {
 
-	/**
-	 * Lists the drivers that have been assigned to the delivery.
-	 * 
-	 * @param delivery
-	 */
-	public void displayDriversAssignedToDelivery(Delivery delivery) {
+                done = true;
 
-		boolean done;
-		Driver driver;
+            } else {
 
-		System.out.println("\nDrivers assigned to: " + " "
-				+ delivery.getDeliveryID() + " " + delivery.getAddress() + " " + delivery.getDesiredDeliveryTime() + " :");
-		lineCheck(1);
+                displayDelivery(delivery);
+                lineCheck(2);
 
-		System.out
-				.println("===========================================================");
-		lineCheck(1);
+            } // if
 
-		delivery.getDriversAssigned().goToFrontOfList();
-		done = false;
+        } // while
 
-		while (!done) {
+    }
 
-			driver = delivery.getDriversAssigned().getNextDriver();
+    /**
+     * Displays the students in the student list. Displays the same information
+     * that is listed in the displayStudent() method listed above.
+     *
+     * @param list
+     */
+    public void displayDriverList(DriverList list) {
 
-			if (driver == null) {
+        boolean done;
+        Driver driver;
 
-				done = true;
+        System.out.print("\n");
+        lineCheck(1);
 
-			} else {
+        list.goToFrontOfList();
 
-				displayDriver(driver);
+        done = false;
 
-			} // if
+        while (!done) {
 
-		} // while
+            driver = list.getNextDriver();
 
-	}
+            if (driver == null) {
 
-	/**
-	 * Lists the courses currently assigned to a teacher this term.
-	 * 
-	 * @param driver
-	 */
-	public void displayDeliveriesAssignedToDriver(Driver driver) {
+                done = true;
 
-		boolean done;
-		Delivery delivery;
+            } else {
 
-		System.out.println("\nDeliveries assigned (today) to : "
-				+ driver.getFirstName() + " " + driver.getLastName() + " "
-				+ driver.getDriverID());
-		lineCheck(2);
-		System.out
-				.println("========================================================= ");
-		lineCheck(1);
+                displayDriver(driver);
+                lineCheck(1);
 
-		driver.getDeliveriesAssigned().goToFrontOfList();
-		done = false;
+            } // if
 
-		while (!done) {
+        } // while
 
-			delivery = driver.getDeliveriesAssigned().getNextDelivery();
+    }
 
-			if (delivery == null) {
+    /**
+     * Displays the deliveries in the deliverieslist. Displays the same
+     * information that is listed in the displayDelivery() method listed above.
+     *
+     * @param list
+     */
+    public void displayDeliveryList(DeliveryList list) {
 
-				done = true;
+        boolean done;
+        Delivery delivery;
 
-			} else {
+        System.out.print("\n");
+        lineCheck(1);
 
-				displayDelivery(delivery);
-				lineCheck(2);
+        list.goToFrontOfList();
+        done = false;
 
-			} // if
+        while (!done) {
 
-		} // while
+            delivery = list.getNextDelivery();
 
-	}
+            if (delivery == null) {
 
-	/**
-	 * Displays the students in the student list. Displays the same information
-	 * that is listed in the displayStudent() method listed above.
-	 * 
-	 * @param list
-	 */
-	public void displayDriverList(DriverList list) {
+                done = true;
 
-		boolean done;
-		Driver driver;
+            } else {
 
-		System.out.print("\n");
-		lineCheck(1);
+                displayDelivery(delivery);
+                lineCheck(1);
 
-		list.goToFrontOfList();
+            } // if
 
-		done = false;
+        } // while
 
-		while (!done) {
+    }
 
-			driver = list.getNextDriver();
+    public void displayDeliveriesMadeByDriver(Driver driver) {
+        boolean done;
+        Delivery delivery;
 
-			if (driver == null) {
+        System.out.println("\nDeliveries made by: "
+                + driver.getFirstName() + " " + driver.getLastName() + " "
+                + driver.getDriverID());
+        lineCheck(2);
+        System.out.println("========================================================= ");
+        lineCheck(1);
 
-				done = true;
+        driver.getDeliveriesMadeList().goToFrontOfList();
+        done = false;
 
-			} else {
+        while (!done) {
 
-				displayDriver(driver);
-				lineCheck(1);
+            delivery = driver.getDeliveriesMadeList().getNextDelivery();
 
-			} // if
+            if (delivery == null) {
 
-		} // while
+                done = true;
 
-	}
+            } else {
 
-	/**
-	 * Displays the deliveries in the deliverieslist. Displays the same
-	 * information that is listed in the displayDelivery() method listed above.
-	 * 
-	 * @param list
-	 */
-	public void displayDeliveryList(DeliveryList list) {
+                displayDelivery(delivery);
+                lineCheck(2);
 
-		boolean done;
-		Delivery delivery;
+            } // if
 
-		System.out.print("\n");
-		lineCheck(1);
+        } // while
+    }
 
-		list.goToFrontOfList();
-		done = false;
+    public void displayUnassignedDeliveries(DeliveryList list) {
+        boolean done;
+        Delivery delivery;
 
-		while (!done) {
+        System.out.print("\n");
+        lineCheck(1);
 
-			delivery = list.getNextDelivery();
+        list.goToFrontOfList();
+        done = false;
 
-			if (delivery == null) {
+        while (!done) {
 
-				done = true;
+            delivery = list.getNextDelivery();
 
-			} else {
+            if (delivery == null) {
 
-				displayDelivery(delivery);
-				lineCheck(1);
+                done = true;
 
-			} // if
+            } else {
+                if (!delivery.isAssigned()) {
+                    displayDelivery(delivery);
+                    lineCheck(1);
+                }
+            } // if
 
-		} // while
-
-	}
-
+        } // while
+    }
+    
+    public void displayMessage(String message) {
+        System.out.println(message);
+    }
 } // Display
