@@ -2,10 +2,10 @@ package ca.etsmtl.log430.lab2.mod;
 
 /**
  * Main class for assignment 2 for LOG430, Architecture logicielle.
- * 
+ *
  * <pre>
  * <b>Pseudo Code:</b>
- * 
+ *
  *   Instantiate lists
  *   do until done
  *     Present Menu
@@ -31,7 +31,7 @@ package ca.etsmtl.log430.lab2.mod;
  *     if user choice = x then you are done
  *   end do
  * </pre>
- * 
+ *
  * @author A.J. Lattanze, CMU
  * @version 1.4, 2012-May-31
  */
@@ -40,127 +40,141 @@ package ca.etsmtl.log430.lab2.mod;
  * Modification Log
  * **************************************************************************
  * v1.4, R. Champagne, 2012-May-31 - Various refactorings for new lab.
- * 
+ *
  * v1.3, R. Champagne, 2012-Feb-02 - Various refactorings for new lab.
- * 
+ *
  * v1.2, 2011-Feb-02, R. Champagne - Various refactorings, javadoc comments.
- * 
+ *
  * v1.1, 2002-May-21, R. Champagne - Adapted for use at ETS.
- * 
+ *
  * v1.0, 12/29/99, A.J. Lattanze - Original version.
  * **************************************************************************
  */
-
 public class DriverAssignment {
 
-	public static void main(String argv[]) {
+    public static void main(String argv[]) {
 
-		if (argv.length != 2) {
-			System.out.println("\n\nIncorrect number of input parameters -"
-					+ " correct usage:");
-			System.out.println("\njava DriverAssignment <delivery file name>"
-					+ " <driver file name>");
-		} else {
+        argv = new String[]{
+            "deliveries.txt",
+            "drivers.txt"
+        };
 
-			// Declarations:
+        if (argv.length != 2) {
+            System.out.println("\n\nIncorrect number of input parameters -"
+                    + " correct usage:");
+            System.out.println("\njava DriverAssignment <delivery file name>"
+                    + " <driver file name>");
+        } else {
 
-			boolean done; // Loop invariant
-			char userChoice; // User's menu choice
-			Delivery myCourse = null; // A course object
-			Driver myTeacher = null; // A teacher object
+            // Declarations:
 
-			// Instantiates a menu object
-			Menus menu = new Menus();
+            boolean done; // Loop invariant
+            char userChoice; // User's menu choice
+            Delivery myDelivery = null; // A course object
+            Driver myDriver = null; // A teacher object
 
-			// Instantiates a display object
-			Displays display = new Displays();
+            // Instantiates a menu object
+            Menus menu = new Menus();
 
-			/*
-			 * The following instantiations create a list of courses and
-			 * teachers. The pathname for the file containing course information
-			 * is passed to the main program on the command line as the first
-			 * argument (argv[0]). The pathname for the file containing teacher
-			 * information is passed to the main program on the command line as
-			 * the second argument (argv[1]). An example teacher file and course
-			 * file is provided as enseignantsLOG.txt and coursLOG.txt
-			 */
+            // Instantiates a display object
+            Displays display = new Displays();
 
-			DeliveryReader myCourseList = new DeliveryReader(argv[0]);
-			DriverReader myTeacherList = new DriverReader(argv[1]);
+            /*
+             * The following instantiations create a list of courses and
+             * teachers. The pathname for the file containing course information
+             * is passed to the main program on the command line as the first
+             * argument (argv[0]). The pathname for the file containing teacher
+             * information is passed to the main program on the command line as
+             * the second argument (argv[1]). An example teacher file and course
+             * file is provided as enseignantsLOG.txt and coursLOG.txt
+             */
 
-			if ((myCourseList.getListOfDeliveries() == null)
-					|| (myTeacherList.getListOfDrivers() == null)) {
-				System.out
-						.println("\n\n *** The course list and/or the teacher"
-								+ " list was not initialized ***");
-				done = true;
-			} else {
-				done = false;
-			} // if
+            DeliveryReader myDeliveryList = new DeliveryReader(argv[0]);
+            DriverReader myDriverList = new DriverReader(argv[1]);
 
-			while (!done) {
+            if ((myDeliveryList.getListOfDeliveries() == null)
+                    || (myDriverList.getListOfDrivers() == null)) {
+                System.out.println("\n\n *** The course list and/or the teacher"
+                        + " list was not initialized ***");
+                done = true;
+            } else {
+                done = false;
+            } // if
 
-				userChoice = menu.mainMenu();
-				switch (userChoice) {
+            while (!done) {
 
-				case '1':
+                userChoice = menu.mainMenu();
+                switch (userChoice) {
 
-					display.displayDriverList(myTeacherList
-							.getListOfDrivers());
-					break;
+                    case '1':
 
-				case '2':
+                        display.displayDriverList(myDriverList.getListOfDrivers());
+                        break;
 
-					display.displayDeliveryList(myCourseList.getListOfDeliveries());
-					break;
+                    case '2':
 
-				case '3':
+                        display.displayDeliveryList(myDeliveryList.getListOfDeliveries());
+                        break;
 
-					display.displayDriverList(myTeacherList
-							.getListOfDrivers());
-					myTeacher = menu.pickDriver(myTeacherList
-							.getListOfDrivers());
-					if (myTeacher != null) {
-						display.displayDeliveriesAssignedToDriver(myTeacher);
-					} // if
-					break;
+                    case '3':
 
-				case '4':
+                        display.displayDriverList(myDriverList.getListOfDrivers());
+                        myDriver = menu.pickDriver(myDriverList.getListOfDrivers());
+                        if (myDriver != null) {
+                            display.displayDeliveriesAssignedToDriver(myDriver);
+                        } // if
+                        break;
 
-					display.displayDeliveryList(myCourseList.getListOfDeliveries());
-					myCourse = menu.pickDelivery(myCourseList.getListOfDeliveries());
+                    case '4':
 
-					if (myCourse != null) {
-						display.displayDriversAssignedToDelivery(myCourse);
-					} // if
-					break;
+                        display.displayDeliveryList(myDeliveryList.getListOfDeliveries());
+                        myDelivery = menu.pickDelivery(myDeliveryList.getListOfDeliveries());
 
-				case '5':
+                        if (myDelivery != null) {
+                            display.displayDriversAssignedToDelivery(myDelivery);
+                        } // if
+                        break;
 
-					display.displayDriverList(myTeacherList
-							.getListOfDrivers());
-					myTeacher = menu.pickDriver(myTeacherList
-							.getListOfDrivers());
+                    case '5':
 
-					if (myTeacher != null) {
-						display.displayDeliveryList(myCourseList
-								.getListOfDeliveries());
-						myCourse = menu.pickDelivery(myCourseList
-								.getListOfDeliveries());
-						if (myCourse != null) {
-							myCourse.assignDriver(myTeacher);
-							myTeacher.assignDelivery(myCourse);
-						} // if
-					} // if
+                        display.displayDriverList(myDriverList.getListOfDrivers());
+                        myDriver = menu.pickDriver(myDriverList.getListOfDrivers());
 
-					break;
+                        if (myDriver != null) {
+                            display.displayDeliveryList(myDeliveryList.getListOfDeliveries());
+                            myDelivery = menu.pickDelivery(myDeliveryList.getListOfDeliveries());
+                            if (myDelivery != null) {
+                                boolean success = myDelivery.assignDriver(myDriver);
+                                if (success) {
+                                    try {
+                                        myDriver.assignDelivery(myDelivery);
+                                    } catch (Exception ex) {
+                                        myDelivery.unassignDriver();
+                                        display.displayMessage("The delivery was not assigned: \n" + ex.getMessage());
+                                    }
+                                } else {
+                                    display.displayMessage("This delivery is already assigned to a driver.");
+                                }
+                            } // if
+                        } // if
 
-				case 'X':
+                        break;
+                    case '6':
+                        display.displayDriverList(myDriverList.getListOfDrivers());
+                        myDriver = menu.pickDriver(myDriverList.getListOfDrivers());
+                        if (myDriver != null) {
+                            display.displayDeliveriesMadeByDriver(myDriver);
+                        }
+                        break;
+                    case '7':
+                        display.displayUnassignedDeliveries(myDeliveryList.getListOfDeliveries());
+                        break;
 
-				case 'x':
-					done = true;
-				} // switch
-			} // while
-		} // if
-	} // main
+                    case 'X':
+                    case 'x':
+                        done = true;
+                } // switch
+            } // while
+        } // if
+    } // main
 } // Class
