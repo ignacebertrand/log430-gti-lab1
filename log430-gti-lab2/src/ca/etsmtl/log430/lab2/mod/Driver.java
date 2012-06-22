@@ -66,8 +66,8 @@ public class Driver {
         int hours = 0;
         int minutes = 0;
         while ((item = this.deliveriesAssignedList.getNextDelivery()) != null) {
-            hours = Integer.parseInt(item.getEstimatedDeliveryDuration().substring(0, 1));
-            minutes = Integer.parseInt(item.getEstimatedDeliveryDuration().substring(2, 3));
+            hours = Integer.parseInt(item.getEstimatedDeliveryDuration().substring(0, 2));
+            minutes = Integer.parseInt(item.getEstimatedDeliveryDuration().substring(2, 4));
             totalMinutes += (hours * 60) + minutes;
             
             if (item.hasConflictWith(delivery)) {
@@ -75,8 +75,8 @@ public class Driver {
             }
         }
         
-        hours = Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(0, 1));
-        minutes = Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(2, 3));
+        hours = Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(0, 2));
+        minutes = Integer.parseInt(delivery.getEstimatedDeliveryDuration().substring(2, 4));
         totalMinutes += (hours * 60) + minutes;
         
         if (this.getType().equalsIgnoreCase("JNR") && totalMinutes > (60 * 12)) {
