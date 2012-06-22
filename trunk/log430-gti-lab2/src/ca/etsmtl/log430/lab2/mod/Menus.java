@@ -82,7 +82,7 @@ public class Menus {
 		System.out.print("\n\nEnter driver ID and press return >> ");
 		userChoice = terminal.keyboardReadString();
 
-		driver = list.findTeacherByID(userChoice);
+		driver = list.findDriverByID(userChoice);
 
 		if (driver == null) {
 

@@ -89,14 +89,14 @@ public class DriverList extends List {
 	} // findTeacher
 
 	/**
-	 * Finds a teacher in a list using the teacherID as the search key.
+	 * Finds a teacher in a list using the driverID as the search key.
 	 * 
-	 * @param teacherID
-	 * @return if the current list object's teacherID matches the teacherID
+	 * @param driverID
+	 * @return if the current list object's driverID matches the driverID
 	 *         passed to the method, the Driver object is returned to the
 	 *         caller. Otherwise, returns null.
 	 */
-	public Driver findTeacherByID(String teacherID) {
+	public Driver findDriverByID(String driverID) {
 
 		Driver currentObject = null;
 		boolean done = false;
@@ -117,7 +117,7 @@ public class DriverList extends List {
 
 			} else {
 
-				if (currentObject.getDriverID().compareTo(teacherID) == 0) {
+				if (currentObject.getDriverID().compareTo(driverID) == 0) {
 
 					found = true;
 					done = true;
