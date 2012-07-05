@@ -46,9 +46,9 @@ public class Delivery {
      */
     private String estimatedDeliveryDuration;
     /**
-     * List of drivers assigned to the delivery
+     * Driver assigned to the delivery
      */
-    private DriverList driversAssigned = new DriverList();
+    private Driver driverAssigned = null;
 
     public Delivery() {
         this(null);
@@ -70,7 +70,7 @@ public class Delivery {
      * @param driver
      */
     public void assignDriver(Driver driver) {
-        driversAssigned.addDriver(driver);
+        this.driverAssigned = driver;
     }
 
     public void setDeliveryID(String deliveryID) {
@@ -105,11 +105,7 @@ public class Delivery {
         this.address = address;
     }
 
-    public DriverList getDriversAssigned() {
-        return driversAssigned;
-    }
-
-    public void setDriversAssigned(DriverList driversAssigned) {
-        this.driversAssigned = driversAssigned;
+    public Driver getDriverAssigned() {
+        return this.driverAssigned;
     }
 } // Delivery class

@@ -88,37 +88,22 @@ public class Displays {
      *
      * @param delivery
      */
-    public void displayDriversAssignedToDelivery(Delivery delivery) {
+    public void displayDriverAssignedToDelivery(Delivery delivery) {
 
-        boolean done;
-        Driver driver;
-
-        System.out.println("\nDrivers assigned to: " + " "
+        System.out.println("\nDriver assigned to: " + " "
                 + delivery.getDeliveryID() + " " + delivery.getAddress() + " " + delivery.getDesiredDeliveryTime() + " :");
-        lineCheck(1);
+        this.lineCheck(1);
 
         System.out.println("===========================================================");
-        lineCheck(1);
+        this.lineCheck(1);
 
-        delivery.getDriversAssigned().goToFrontOfList();
-        done = false;
-
-        while (!done) {
-
-            driver = delivery.getDriversAssigned().getNextDriver();
-
-            if (driver == null) {
-
-                done = true;
-
-            } else {
-
-                displayDriver(driver);
-
-            } // if
-
-        } // while
-
+        Driver driverAssigned = delivery.getDriverAssigned();
+        if (driverAssigned == null) {
+            System.out.println("There is no driver assigned to this delivery.");
+        } else {
+            this.displayDriver(driverAssigned);
+        }
+        this.lineCheck(1);
     }
 
     /**
@@ -231,5 +216,50 @@ public class Displays {
 
         } // while
 
+    }
+    
+    public void displayDeliveriesMadeByDriver(Driver driver) {
+        System.out.println("\nDeliveries made by : "
+                + driver.getFirstName() + " " + driver.getLastName() + " "
+                + driver.getDriverID());
+        this.lineCheck(2);
+        System.out.println("========================================================= ");
+        this.lineCheck(1);
+        
+        DeliveryList deliveries = driver.getDeliveriesMadeList();
+        deliveries.goToFrontOfList();
+        
+        Delivery delivery;
+        int count = 0;
+        while ((delivery = deliveries.getNextDelivery()) != null) {
+            this.displayDelivery(delivery);
+            this.lineCheck(1);
+            count++;
+        }
+        
+        if (count == 0) {
+            System.out.println("This driver hasn't made any deliveries.");
+        }
+    }
+    
+    public void displayUnassignedDeliveries(DeliveryList list) {
+        System.out.println("\nUnassigned deliveries : ");
+        System.out.println("========================================================= ");
+        this.lineCheck(2);
+        
+        list.goToFrontOfList();
+        Delivery delivery;
+        int count = 0;
+        while ((delivery = list.getNextDelivery()) != null) {
+            if (delivery.getDriverAssigned() == null) {
+                this.displayDelivery(delivery);
+                this.lineCheck(1);
+                count++;
+            }
+        }
+        
+        if (count == 0) {
+            System.out.println("There is no unassigned deliveries.");
+        }
     }
 } // Display

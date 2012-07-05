@@ -1,2 +1,15 @@
-D002 1000 0200 1111 Notre-Dame ouest, Montreal H3C 1K3
-D018 1000 0015 1 St-Denis Montreal A1A 1A1
+D010 1000 0200 1111 Notre-Dame ouest, Montreal H3C 1K3
+D011 1000 0015 1 St-Denis Montreal A1A 1A1
+D020 0900 0400 1111 Notre-Dame ouest, Montreal H3C 1K3
+D021 1300 0345 1111 Notre-Dame ouest, Montreal H3C 1K3
+D022 1330 0015 1111 Notre-Dame ouest, Montreal H3C 1K3
+D023 1500 0030 1111 Notre-Dame ouest, Montreal H3C 1K3
+D030 1300 0800 1111 Notre-Dame ouest, Montreal H3C 1K3
+D031 1700 0345 1111 Notre-Dame ouest, Montreal H3C 1K3
+D032 1730 0015 1111 Notre-Dame ouest, Montreal H3C 1K3
+D033 1830 0030 1111 Notre-Dame ouest, Montreal H3C 1K3
+D040 1500 0300 1111 Notre-Dame ouest, Montreal H3C 1K3
+D041 1230 0130 1111 Notre-Dame ouest, Montreal H3C 1K3
+D042 1400 0100 1111 Notre-Dame ouest, Montreal H3C 1K3
+D043 1530 0300 1111 Notre-Dame ouest, Montreal H3C 1K3
+D044 1500 0300 1111 Notre-Dame ouest, Montreal H3C 1K3

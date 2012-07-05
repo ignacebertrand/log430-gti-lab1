@@ -39,13 +39,12 @@ public class SystemInitialize {
         new AssignDriverToDelivery(new Integer(100), "AssignDriverToDelivery");
         new ListDrivers(new Integer(101), "ListDriversComponent");
         new ListDeliveries(new Integer(102), "ListDeliveriesComponent");
-        new ListDeliveriesAssignedToDriver(new Integer(103),
-                "ListDeliveriesAssignedToDriverComponent");
-        new ListDriversAssignedToDelivery(new Integer(104),
-                "ListDriversAssignedToDeliveryComponent");
+        new ListDeliveriesAssignedToDriver(new Integer(103), "ListDeliveriesAssignedToDriverComponent");
+        new DisplayDriverAssignedToDelivery(new Integer(104), "DisplayDriverAssignedToDelivery");
+        new ListDeliveriesMadeByDriver(new Integer(106), "ListDeliveriesMadeByDriver");
+        new ListUnassignedDeliveries(new Integer(107), "ListUnassignedDeliveries");
 
-        Executive executiveComponent = new Executive(new Integer(105),
-                "ExecutiveComponent");
+        Executive executiveComponent = new Executive(new Integer(105), "ExecutiveComponent");
 
         // Start the executive
         executiveComponent.execute();

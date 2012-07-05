@@ -24,9 +24,9 @@ import java.util.Observable;
  * v1.0, A.J. Lattanze, 12/29/99 - Original version.
  * ***************************************************************************
  */
-public class ListDriversAssignedToDelivery extends Communication {
+public class DisplayDriverAssignedToDelivery extends Communication {
 
-    public ListDriversAssignedToDelivery(Integer registrationNumber,
+    public DisplayDriverAssignedToDelivery(Integer registrationNumber,
             String componentName) {
         super(registrationNumber, componentName);
     }
@@ -57,7 +57,7 @@ public class ListDriversAssignedToDelivery extends Communication {
                  * If the delivery is valid (exists in the list), them we
                  * display the drivers that are assigned to it.
                  */
-                display.displayDriversAssignedToDelivery(myDelivery);
+                display.displayDriverAssignedToDelivery(myDelivery);
             } else {
                 System.out.println("\n\n *** Delivery not found ***");
             }
